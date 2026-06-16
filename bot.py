@@ -52,13 +52,20 @@ def post_to_telegram(text):
     bot_token = os.environ["BOT_TOKEN"]
     chat_id = os.environ["CHAT_ID"]
 
+    payload = {
+        "chat_id": chat_id,
+        "text": text,
+        "parse_mode": "Markdown"
+    }
+
+    # Если задан TOPIC_ID — постим в конкретную тему форум-группы
+    topic_id = os.environ.get("TOPIC_ID")
+    if topic_id:
+        payload["message_thread_id"] = int(topic_id)
+
     response = requests.post(
         f"https://api.telegram.org/bot{bot_token}/sendMessage",
-        json={
-            "chat_id": chat_id,
-            "text": text,
-            "parse_mode": "Markdown"
-        }
+        json=payload
     )
 
     if not response.ok:
