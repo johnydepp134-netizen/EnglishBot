@@ -2,8 +2,8 @@ name: Daily English Topic
 
 on:
   schedule:
-    - cron: '0 7 * * *'
-  workflow_dispatch:
+    - cron: '0 7 * * *'  # Каждый день в 10:00 по Москве (07:00 UTC)
+  workflow_dispatch:       # Кнопка ручного запуска на GitHub
 
 jobs:
   post-topic:
@@ -28,6 +28,7 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
+          TOPIC_ID: ${{ secrets.TOPIC_ID }}
         run: python bot.py
 
       - name: Save updated topics list
