@@ -60,13 +60,19 @@ def post_to_telegram(text):
 
     # Если задан TOPIC_ID — постим в конкретную тему форум-группы
     topic_id = os.environ.get("TOPIC_ID")
-    if topic_id:
-        payload["message_thread_id"] = int(topic_id)
+    print(f"DEBUG: TOPIC_ID raw value = {repr(topic_id)}")
+    if topic_id and topic_id.strip():
+        payload["message_thread_id"] = int(topic_id.strip())
+        print(f"DEBUG: posting to thread {payload['message_thread_id']}")
+    else:
+        print("DEBUG: TOPIC_ID empty/missing — posting to General")
 
     response = requests.post(
         f"https://api.telegram.org/bot{bot_token}/sendMessage",
         json=payload
     )
+
+    print(f"DEBUG: Telegram response = {response.text}")
 
     if not response.ok:
         raise Exception(f"Telegram API error: {response.text}")
