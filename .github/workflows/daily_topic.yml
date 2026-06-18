@@ -1,8 +1,6 @@
 name: Daily English Topic
 
 on:
-  schedule:
-    - cron: '7 7 * * *'  # Каждый день в 10:00 по Москве (07:00 UTC)
   workflow_dispatch:       # Кнопка ручного запуска на GitHub
 
 jobs:
